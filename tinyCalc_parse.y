@@ -81,7 +81,13 @@ line:
 
 expr:
       NUM                     { $$ = $1; }
-    | VAR                     { $$ = get_variable_value($1); if (isnan($$)) yyerror("Variable not found!\n"); }
+    | VAR { 
+        $$ = get_variable_value($1); 
+        if (isnan($$)) { 
+            fprintf(stderr, "Error: Variable '%s' not found!\n\n", $1); 
+            error_occurred = 1; 
+        } 
+    }
     | expr PLUS expr          { $$ = $1 + $3; }
     | expr MINUS expr         { $$ = $1 - $3; }
     | expr TIMES expr         { $$ = $1 * $3; }
