@@ -69,8 +69,11 @@ input:
 
 line:
     expr '\n' { 
-        printf("= %.10g\n\n", $1); 
+        if (!error_occurred) { // Only print the result if no error
+            printf("= %.10g\n\n", $1); 
+        }
         printf("[%d] ", ++calc_count);  // Increment and print the calculation number
+        error_occurred = 0;  // Reset error flag
     }
     | VAR ASSIGN expr '\n'  { 
         if (!error_occurred && !isnan($3)) {  // Check if no error and result is valid
@@ -94,7 +97,8 @@ expr:
         $$ = get_variable_value($1); 
         if (isnan($$)) { 
            fprintf(stderr, "Error: 'Variable '%s' not found!' at calculation [%d]\n\n", $1, calc_count); 
-            error_occurred = 1; 
+            error_occurred = 1;
+            $$ = 0; 
         } 
     }
     | expr PLUS expr          { $$ = $1 + $3; }
