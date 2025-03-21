@@ -93,7 +93,7 @@ expr:
     | VAR { 
         $$ = get_variable_value($1); 
         if (isnan($$)) { 
-            fprintf(stderr, "Error: Variable '%s' not found!\n\n", $1); 
+           fprintf(stderr, "Error: 'Variable '%s' not found!' at calculation [%d]\n\n", $1, calc_count); 
             error_occurred = 1; 
         } 
     }
