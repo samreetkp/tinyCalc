@@ -125,5 +125,5 @@ int main(void) {
 }
 
 void yyerror(const char *s) {
-    fprintf(stderr, "Error: %s\n\n", s);
+    fprintf(stderr, "Error: '%s' at calculation [%d]\n\n", s, calc_count);
 }
