@@ -67,11 +67,11 @@ input:
     ;
 
 line:
-    expr '\n'               { printf("\t%.10g\n", $1); }
+    expr '\n'               { printf("= %.10g\n\n", $1); }
     | VAR ASSIGN expr '\n'  { 
         if (!error_occurred && !isnan($3)) {  // Check if no error and result is valid
             set_variable_value($1, $3); 
-            printf("Variable %s is assigned to %.10g.\n", $1, $3);
+            printf("Variable %s is assigned to %.10g.\n\n", $1, $3);
         }
         free($1);
         error_occurred = 0;  // Reset error flag
@@ -81,13 +81,13 @@ line:
 
 expr:
       NUM                     { $$ = $1; }
-    | VAR                     { $$ = get_variable_value($1); if (isnan($$)) yyerror("Variable not found!"); }
+    | VAR                     { $$ = get_variable_value($1); if (isnan($$)) yyerror("Variable not found!\n"); }
     | expr PLUS expr          { $$ = $1 + $3; }
     | expr MINUS expr         { $$ = $1 - $3; }
     | expr TIMES expr         { $$ = $1 * $3; }
     | expr DIVIDE expr        { 
         if ($3 == 0) { 
-            yyerror("divide by zero !!"); 
+            yyerror("divide by zero !!\n"); 
             error_occurred = 1;  // Set error flag
             $$ = NAN;  // Return NaN
         } else {
@@ -103,7 +103,7 @@ expr:
 %%
 
 int main(void) {
-    printf("Enter any Arithmetic Expression or Assignment Statement. Press ^D to exit.\n");
+    printf("Enter any Arithmetic Expression or Assignment Statement. Press ^D to exit.\n\n");
     yyparse();
     return 0;
 }
