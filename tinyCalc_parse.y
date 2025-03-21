@@ -102,7 +102,7 @@ expr:
     | expr TIMES expr         { $$ = $1 * $3; }
     | expr DIVIDE expr        { 
         if ($3 == 0) { 
-            yyerror("divide by zero !!\n"); 
+            yyerror("divide by zero !!"); 
             error_occurred = 1;  // Set error flag
             $$ = NAN;  // Return NaN
         } else {
@@ -125,5 +125,5 @@ int main(void) {
 }
 
 void yyerror(const char *s) {
-    fprintf(stderr, "Error: %s\n", s);
+    fprintf(stderr, "Error: %s\n\n", s);
 }
