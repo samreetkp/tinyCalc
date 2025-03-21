@@ -20,6 +20,7 @@ typedef struct {
 Variable variables[MAX_VARS];
 int num_vars = 0;
 int error_occurred = 0;
+int calc_count = 1;  // Counter for calculations
 
 double get_variable_value(const char* name) {
     for (int i = 0; i < num_vars; i++) {
@@ -67,7 +68,10 @@ input:
     ;
 
 line:
-    expr '\n'               { printf("= %.10g\n\n", $1); }
+    expr '\n' { 
+        printf("= %.10g\n\n", $1); 
+        printf("[%d] ", ++calc_count);  // Increment and print the calculation number
+    }
     | VAR ASSIGN expr '\n'  { 
         if (!error_occurred && !isnan($3)) {  // Check if no error and result is valid
             set_variable_value($1, $3); 
@@ -75,8 +79,13 @@ line:
         }
         free($1);
         error_occurred = 0;  // Reset error flag
+        printf("[%d] ", ++calc_count);  // Increment and print the calculation number
     }
-    | error '\n'            { yyerrok; error_occurred = 0; }  /* Recover from error */
+    | error '\n' { 
+        yyerrok; 
+        error_occurred = 0;  
+        printf("[%d] ", ++calc_count);
+    }
     ;
 
 expr:
@@ -110,11 +119,11 @@ expr:
 
 int main(void) {
     printf("Enter any Arithmetic Expression or Assignment Statement. Press ^D to exit.\n\n");
+    printf("[%d] ", calc_count);  // Print first calculation prompt
     yyparse();
     return 0;
 }
 
-
 void yyerror(const char *s) {
     fprintf(stderr, "Error: %s\n", s);
-} 
+}
