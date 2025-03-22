@@ -24,11 +24,12 @@ Install **Flex** and **Bison**:
    - On macOS: `brew install flex bison
 
 Compile and run the program using:
+```
 flex tinyCalc_parse.l
 bison -d tinyCalc_parse.y
 cc lex.yy.c tinyCalc_parse.tab.c -lm -o tinyCalc_parse
 ./tinyCalc_parse
-
+```
 ## Part 3: Why Bison
 
 Using Flex alone (without Bison) significantly limits the capabilities of the calculator, making several tasks difficult or impossible to implement cleanly. Below are the key limitations:
