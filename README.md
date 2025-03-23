@@ -8,6 +8,7 @@ This project implements a simple calculator using **Yacc** and **Flex**. It allo
 - Basic error handling for invalid input or division by zero.
 - Supports commands like `register`, `update_grade`, and `drop` for student management system use.
 
+
 ## Part 1: BNF Grammar
 
 This section provides the Backus-Naur Form (BNF) grammar rules used in the Tiny Calculator. The grammar defines valid expressions and assignments that the calculator can process.
@@ -46,33 +47,32 @@ This section provides the Backus-Naur Form (BNF) grammar rules used in the Tiny 
 ```
 ### Explanation of Rules:
 
-1. ```<program>```: Defines the calculator’s main structure, which consists of an <input>.
+1. ```<program>```: Defines the calculator’s main structure, which consists of an ```<input>```.
 
-2. ```<input>```: Represents multiple lines of user input, each following <line>.
+2. ```<input>```: Represents multiple lines of user input, each following ```<line>```.
 
 3. ```<line>```:
-- A standalone expression <expr> that evaluates and prints the result.
-- A variable assignment where a <variable> is assigned an expression’s value.
-- Handles syntax errors gracefully.
+   - A standalone expression <expr> that evaluates and prints the result.
+   - A variable assignment where a <variable> is assigned an expression’s value.
+   - Handles syntax errors gracefully.
 
 4. ```<expr>```:
-- A numeric literal <number>.
-- A variable <variable>.
-- Arithmetic operations (+, -, *, /, ^) with left-to-right associativity.
-- Parentheses allow grouping of expressions.
-- Unary + and - for explicit positive or negative values.
+   - A numeric literal <number>.
+   - A variable <variable>.
+   - Arithmetic operations (+, -, *, /, ^) with left-to-right associativity.
+   - Parentheses allow grouping of expressions.
+   - Unary + and - for explicit positive or negative values.
 
 5. ```<number>```: Defines a valid number, which may include decimals.
    
 6. ```<variable>```: Defines variable names as sequences of letters followed by optional alphanumeric characters.
 
 ### Notes:
-
-- Operator precedence follows standard arithmetic rules (^ highest, followed by * and /, then + and -).
-- Parentheses () allow explicit grouping to override precedence.
-- Unary operators + and - have right associativity.
-- Division by zero is handled with an error message.
-- Uninitialized variables result in an error.
+* Operator precedence follows standard arithmetic rules (^ highest, followed by * and /, then + and -).
+* Parentheses () allow explicit grouping to override precedence.
+* Unary operators + and - have right associativity.
+* Division by zero is handled with an error message.
+* Uninitialized variables result in an error.
   
 
 ## Part 2: Implementation
